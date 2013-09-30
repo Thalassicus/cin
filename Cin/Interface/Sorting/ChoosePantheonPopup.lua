@@ -13,6 +13,7 @@ local dkBlue = {12/255,22/255,30/255,120/255};
 
 local g_ItemManager = InstanceManager:new( "ItemInstance", "Button", Controls.ItemStack );
 local bHidden = true;
+local g_bPantheons = true;
 
 local screenSizeX, screenSizeY = UIManager:GetScreenSizeVal()
 local spWidth, spHeight = Controls.ItemScrollPanel:GetSizeVal();
@@ -44,7 +45,8 @@ function OnPopupMessage(popupInfo)
 	end
 	
 	g_PopupInfo = popupInfo;
-	
+	g_bPantheons = popupInfo.Data2;
+
    	UIManager:QueuePopup( ContextPtr, PopupPriority.SocialPolicy );
 end
 Events.SerialEventGameMessagePopup.Add( OnPopupMessage );
@@ -83,33 +85,52 @@ function RefreshList()
 	local pPlayer = Players[Game.GetActivePlayer()];
 	CivIconHookup( pPlayer:GetID(), 64, Controls.CivIcon, Controls.CivIconBG, Controls.CivIconShadow, false, true );
 	
-	local availablePantheonBeliefs = {};
-	for i,v in ipairs(Game.GetAvailablePantheonBeliefs()) do
-		local belief = GameInfo.Beliefs[v];
-		if(belief ~= nil) then
-			table.insert(availablePantheonBeliefs, {
-				ID = belief.ID,
-				Name = Locale.Lookup(belief.ShortDescription),
-				Description = Locale.Lookup(belief.Description),
-				--modchange
-				Type = belief.Type,
-				ListPriority = belief.ListPriority,
-			});
-		end
-	end
+	local availableBeliefs = {};
 	
-	-- Sort pantheons by their description.
+	if (g_bPantheons > 0) then		
+		Controls.PanelTitle:LocalizeAndSetText("TXT_KEY_CHOOSE_PANTHEON_TITLE");
+		for i,v in ipairs(Game.GetAvailablePantheonBeliefs()) do
+			local belief = GameInfo.Beliefs[v];
+			if(belief ~= nil) then
+				table.insert(availableBeliefs, {
+					ID = belief.ID,
+					Name = Locale.Lookup(belief.ShortDescription),
+					Description = Locale.Lookup(belief.Description),
+					--modchange
+					Type = belief.Type,
+					ListPriority = belief.ListPriority,
+				});
+			end
+		end	
+	else
+		Controls.PanelTitle:LocalizeAndSetText("TXT_KEY_CHOOSE_REFORMATION_BELIEF_TITLE");
+		for i,v in ipairs(Game.GetAvailableReformationBeliefs()) do
+			local belief = GameInfo.Beliefs[v];
+			if(belief ~= nil) then
+				table.insert(availableBeliefs, {
+					ID = belief.ID,
+					Name = Locale.Lookup(belief.ShortDescription),
+					Description = Locale.Lookup(belief.Description),
+					--modchange
+					Type = belief.Type,
+					ListPriority = belief.ListPriority,
+				});
+			end
+		end		
+	end
+
+	-- Sort beliefs by their description.
 	--modchange
-	table.sort(availablePantheonBeliefs, function(a,b) return ModLocale.ComparePriority(a, b); end);
+	table.sort(availableBeliefs, function(a,b) return ModLocale.ComparePriority(a, b); end);
 	
 	local bTickTock = false;
-	for i, pantheon in ipairs(availablePantheonBeliefs) do
+	for i, belief in ipairs(availableBeliefs) do
 		local itemInstance = g_ItemManager:GetInstance();
-		itemInstance.Name:SetText(pantheon.Name);
-		--itemInstance.Button:SetToolTipString(pantheon.Description);
-		itemInstance.Description:SetText(pantheon.Description);
+		itemInstance.Name:SetText(belief.Name);
+		--itemInstance.Button:SetToolTipString(belief.Description);
+		itemInstance.Description:SetText(belief.Description);
 		
-		itemInstance.Button:RegisterCallback(Mouse.eLClick, function() SelectPantheon(pantheon.ID); end);
+		itemInstance.Button:RegisterCallback(Mouse.eLClick, function() SelectPantheon(belief.ID); end);
 	
 		if(bTickTock == false) then
 			itemInstance.Box:SetColorVal(unpack(ltBlue));
