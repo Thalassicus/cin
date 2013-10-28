@@ -17,7 +17,7 @@ The project has several parts:
 	Communitas Map
 	This map creates several continents with realistic climate, and numerous offshore islands.
 
-	Communitas AI and Tools (CAIT)
+	Communitas AI and Tools (CAT)
 	This includes a broad variety of tools useful for mod authors, and expands the AI.
 	Both the expansion pack and interface changes below require the tools.
 
@@ -66,11 +66,15 @@ Csebal - Enhancements to terrain hover tooltip.
 Delgar - Created several Opportunities.
 Delta187 - German translations.
 Dmitry - Russian translations.
+EricB - Minor Code edits and contributions.
+	Extensive bugfixing and playtesting.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
 ExpiredReign - Extensive assistance implimenting Leader designs and other features.
 	Proofreading of text.
+	Minor code edits and bugfixes. Playtesting. 
 Gedemon - Map Pins hotseat testing.
 Kilandor - City Limits display of maximum city boundaries.
+Killmeplease - Emigration mod.
 Putmalk - Extra Diplomacy Text.
 Rich Marinaccio - PerfectWorld map script.
 Seek
@@ -81,6 +85,7 @@ Sneaks
 	What Would Gandhi Do
 	Custom Notifications
 	City View enhancements 
+stackpointer - Bugfixing and playtesting, extensive forum help with users.
 Sukritact - Icon art for several units, buildings, and policies.
 Hipfot, Skodkim, Spatzimaus, and VeyDer - Random events.
 Will13 - Code to help improve compatibility between versions.
